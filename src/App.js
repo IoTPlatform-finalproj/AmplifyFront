@@ -1,15 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { Amplify } from 'aws-amplify';
-import { fetchUserAttributes, fetchAuthSession, getCurrentUser } from 'aws-amplify/auth';
-import { withAuthenticator, Button, Heading } from '@aws-amplify/ui-react';
+import {Amplify} from 'aws-amplify';
+import {fetchAuthSession, getCurrentUser} from 'aws-amplify/auth';
+import {withAuthenticator} from '@aws-amplify/ui-react';
 import awsconfig from './aws-exports';
-import baseAxios from "./config/AxiosConfig";
 import MyDevice from "./app/myDevice";
 import MySensor from "./app/mySensor";
+import AddThings from "./app/AddThings";
+
 Amplify.configure(awsconfig);
-function App({ signOut }) {
+
+function App({signOut}) {
 
     const [jwtToken, setJwtToken] = useState('');
     const [userName, setUserName] = useState('');
@@ -17,7 +18,6 @@ function App({ signOut }) {
     const updateSignal = () => {
         setUpdateState(!updateState)
     }
-
 
 
     useEffect(() => {
@@ -35,7 +35,7 @@ function App({ signOut }) {
 
     const fetchJWT = async () => {
         try {
-            const { idToken } = (await fetchAuthSession()).tokens ?? {};
+            const {idToken} = (await fetchAuthSession()).tokens ?? {};
             console.log(`idToken=${idToken}`)
             setJwtToken(idToken);
         } catch (error) { // 로그인 안 되어있는 상태
@@ -56,16 +56,17 @@ function App({ signOut }) {
     };
 
 
-
     return (
-      <div>
-        <h1>Logged in as: {userName}</h1>
-        <h2>!!WA!!</h2>
-        <button onClick={signOut}>Sign out</button>
-          <hr/>
-          <MyDevice jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}/>
-          <MySensor jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal} />
-      </div>
-  );
+        <div>
+            <h1>Logged in as: {userName}</h1>
+            <h2>!!WA!!</h2>
+            <button onClick={signOut}>Sign out</button>
+            <hr/>
+            <MyDevice jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}/>
+            <MySensor jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}/>
+            <AddThings jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}/>
+        </div>
+    );
 }
+
 export default withAuthenticator(App);

@@ -10,6 +10,7 @@ function MyDevice({jwtToken, updateState, updateSignal}) {
     const [logs, updateLogs] = useState([])
     const [selectedDevice, setSelectedDevice] = useState([null, null, null])
     const [isDeviceWinOpen, setDeviceWin] = useState(false);
+    const [isDeviceAddWinOpen, setDeviceAddWin] = useState(false)
 
 
     useEffect(() => {
@@ -113,6 +114,10 @@ function MyDevice({jwtToken, updateState, updateSignal}) {
                 }}/>
             </Modal>}
             {selectedDevice !== null && <DeviceLog name={selectedDevice[0]} logList={logs}/>}
+
+            {isDeviceAddWinOpen && <Modal onClose={() => {
+                setDeviceAddWin(false)
+            }}></Modal>}
         </div>
     );
 }
