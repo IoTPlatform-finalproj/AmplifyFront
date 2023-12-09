@@ -1,6 +1,6 @@
 import baseAxios from "../config/AxiosConfig";
 import {useEffect, useState} from "react";
-import SensorLog from "./SensorLog";
+import SensorLog from "./sensor/SensorLog";
 
 function MySensor({jwtToken, updateState, updateSignal}) {
 

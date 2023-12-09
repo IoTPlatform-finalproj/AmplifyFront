@@ -1,8 +1,8 @@
 import baseAxios from "../config/AxiosConfig";
 import {useEffect, useState} from "react";
-import DeviceLog from "./DeviceLog";
+import DeviceLog from "./device/DeviceLog";
 import Modal from "../component/Modal";
-import DeviceSet from "./DeviceSet";
+import DeviceSet from "./device/DeviceSet";
 
 function MyDevice({jwtToken, updateState, updateSignal}) {
 

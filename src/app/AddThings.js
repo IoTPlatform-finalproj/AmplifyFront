@@ -1,7 +1,7 @@
 import {useState} from "react";
 import Modal from "../component/Modal";
-import DeviceAdd from "./DeviceAdd";
-import SensorAdd from "./SensorAdd";
+import DeviceAdd from "./device/DeviceAdd";
+import SensorAdd from "./sensor/SensorAdd";
 
 function AddThings({jwtToken, updateState, updateSignal}) {
     const [isDeviceAddOpen, setIsDeviceAddOpen] = useState(false)

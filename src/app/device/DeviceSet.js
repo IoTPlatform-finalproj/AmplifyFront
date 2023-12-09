@@ -1,4 +1,4 @@
-import baseAxios from "../config/AxiosConfig";
+import baseAxios from "../../config/AxiosConfig";
 import {useState} from "react";
 
 function DeviceSet({deviceId, deviceType, token, updateSignal, closeWin}) {

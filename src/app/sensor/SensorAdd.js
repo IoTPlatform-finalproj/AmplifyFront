@@ -1,11 +1,10 @@
 import {useState} from "react";
-import baseAxios from "../config/AxiosConfig";
+import baseAxios from "../../config/AxiosConfig";
 
-function DeviceAdd({token, updateSignal, closeWin}) {
+function SensorAdd({token, updateSignal, closeWin}) {
     const [name, setName] = useState('')
     const [type, setType] = useState(0)
     const [description, setDescription] = useState('')
-    const [power, setPower] = useState(0)
 
     const [isSuccessed, setIsSuccessed] = useState(null)
 
@@ -13,15 +12,14 @@ function DeviceAdd({token, updateSignal, closeWin}) {
         event.preventDefault();
 
         const requestBody = {
-            'device_type': type,
-            'device_name': name,
-            'device_description': description,
-            'device_power': power
+            'sensor_type': type,
+            'sensor_name': name,
+            'sensor_description': description,
         }
         console.log(requestBody)
 
         const response = await baseAxios.put(
-            'devices',
+            'sensors',
             requestBody,
             {
                 headers: {
@@ -58,18 +56,10 @@ function DeviceAdd({token, updateSignal, closeWin}) {
                 </label>
                 <br/>
 
-                <label>
-                    소비전력(W):
-                    <input
-                        type="number"
-                        value={power}
-                        onChange={(e) => setPower(parseInt(e.target.value))}
-                    />
-                </label>
                 <br/>
 
                 <div>
-                    <p>타입 0은 on/off를 가지는 제품, 1은 0에 더해 단계 (ex: 에어컨)를 가지는 제품입니다. </p>
+                    <p>타입 0은 on/off의 상태 가지는 제품, 1은 단계 (ex: 온도계)를 가지는 제품입니다. </p>
                     <label>
                         Type 0
                         <input
@@ -98,9 +88,9 @@ function DeviceAdd({token, updateSignal, closeWin}) {
                 <button type="submit">Submit</button>
             </form>
             {isSuccessed !== null && <div>
-                <strong>기기 인증 정보: 반드시 안전하게 저장!</strong><br/>
-                <span>기기 ID: </span> <p>{isSuccessed.device_id}</p><br/>
-                <span>기기 인증서: </span><p>{isSuccessed.certificatePem}</p><br/>
+                <strong>센서 인증 정보: 반드시 안전하게 저장!</strong><br/>
+                <span>센서 ID: </span> <p>{isSuccessed.sensor_id}</p><br/>
+                <span>센서 인증서: </span><p>{isSuccessed.certificatePem}</p><br/>
                 <span>개인키: </span><p>{isSuccessed.privateKey}</p><br/>
                 <span>공개키: </span><p>{isSuccessed.publicKey}</p><br/>
             </div>}
@@ -109,4 +99,4 @@ function DeviceAdd({token, updateSignal, closeWin}) {
     );
 }
 
-export default DeviceAdd
+export default SensorAdd

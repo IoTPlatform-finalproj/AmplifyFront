@@ -4,9 +4,10 @@ import {Amplify} from 'aws-amplify';
 import {fetchAuthSession, getCurrentUser} from 'aws-amplify/auth';
 import {withAuthenticator} from '@aws-amplify/ui-react';
 import awsconfig from './aws-exports';
-import MyDevice from "./app/myDevice";
-import MySensor from "./app/mySensor";
+import MyDevice from "./app/MyDevice";
+import MySensor from "./app/MySensor";
 import AddThings from "./app/AddThings";
+import MyAutoRules from "./app/MyAutoRules";
 
 Amplify.configure(awsconfig);
 
@@ -64,6 +65,7 @@ function App({signOut}) {
             <hr/>
             <MyDevice jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}/>
             <MySensor jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}/>
+            <MyAutoRules jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}/>
             <AddThings jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}/>
         </div>
     );
