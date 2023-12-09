@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import baseAxios from "../config/AxiosConfig";
 
-function MyAutoRules({jwtToken, updateState, updateSignal}) {
+function MyAutoRules({jwtToken, updateState, updateSignal, setRuleList}) {
     const [rules, setRules] = useState([])
 
     useEffect(() => {
@@ -26,6 +26,7 @@ function MyAutoRules({jwtToken, updateState, updateSignal}) {
             }
 
             setRules(response.data.rules)
+            setRuleList(response.data.rules)
         } catch (e) {
             console.error(e)
         }

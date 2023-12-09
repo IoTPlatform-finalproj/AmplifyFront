@@ -16,6 +16,10 @@ function App({signOut}) {
     const [jwtToken, setJwtToken] = useState('');
     const [userName, setUserName] = useState('');
     const [updateState, setUpdateState] = useState(true);
+
+    const [devices, setDevices] = useState([])
+    const [sensors, setSensors] = useState([])
+    const [rules, setRules] = useState([])
     const updateSignal = () => {
         setUpdateState(!updateState)
     }
@@ -37,7 +41,6 @@ function App({signOut}) {
     const fetchJWT = async () => {
         try {
             const {idToken} = (await fetchAuthSession()).tokens ?? {};
-            console.log(`idToken=${idToken}`)
             setJwtToken(idToken);
         } catch (error) { // 로그인 안 되어있는 상태
             console.log(error);
@@ -63,10 +66,14 @@ function App({signOut}) {
             <h2>!!WA!!</h2>
             <button onClick={signOut}>Sign out</button>
             <hr/>
-            <MyDevice jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}/>
-            <MySensor jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}/>
-            <MyAutoRules jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}/>
-            <AddThings jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}/>
+            <MyDevice jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}
+                      setDeviceList={setDevices}/>
+            <MySensor jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}
+                      setSensorList={setSensors}/>
+            <MyAutoRules jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}
+                         setRuleList={setRules}/>
+            <AddThings jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal} deviceList={devices}
+                       sensorList={sensors} ruleList={rules}/>
         </div>
     );
 }

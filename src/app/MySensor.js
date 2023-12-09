@@ -2,11 +2,11 @@ import baseAxios from "../config/AxiosConfig";
 import {useEffect, useState} from "react";
 import SensorLog from "./sensor/SensorLog";
 
-function MySensor({jwtToken, updateState, updateSignal}) {
+function MySensor({jwtToken, updateState, updateSignal, setSensorList}) {
 
     const [sensors, setSensors] = useState([])
     const [logs, updateLogs] = useState([])
-    const [selectedSensor, setSelectedSensor] = useState([null, null, null])
+    const [selectedSensor, setSelectedSensor] = useState([])
 
     useEffect(() => {
         getSensors(jwtToken)
@@ -22,10 +22,9 @@ function MySensor({jwtToken, updateState, updateSignal}) {
                     }
                 });
             setSensors(response.data.sensors)
+            setSensorList(response.data.sensors)
 
-            console.log('API response:', response.data);
         } catch (error) {
-            console.log()
             console.error('Error calling API:', error);
         }
     };
@@ -34,7 +33,7 @@ function MySensor({jwtToken, updateState, updateSignal}) {
         if (token === '') return
         try {
             const response = await baseAxios.get(
-                `sensors/${sensorId}/log`,
+                `sensors/${sensorId}/log?start_time=${new Date().getTime() - (7 * 24 * 60 * 60 * 1000)}`,
                 {
                     headers: {
                         Authorization: token
@@ -44,7 +43,6 @@ function MySensor({jwtToken, updateState, updateSignal}) {
 
             updateLogs(response.data.sensor_log)
 
-            console.log('Device log: ', response.data.sensor_log)
         } catch (error) {
             console.error('Error while fetch log: ', error)
         }
@@ -74,8 +72,8 @@ function MySensor({jwtToken, updateState, updateSignal}) {
                         <td>{sensor.type}</td>
                         <td>
                             <button onClick={() => {
-                                if (selectedSensor[1] === sensor.id) {
-                                    setSelectedSensor(null)
+                                if (selectedSensor.length === 3 && selectedSensor[1] === sensor.id) {
+                                    setSelectedSensor([])
                                 } else {
                                     updateLogs([])
                                     setSelectedSensor([sensor.name, sensor.id, parseInt(sensor.type)])
@@ -88,7 +86,7 @@ function MySensor({jwtToken, updateState, updateSignal}) {
                 ))}
                 </tbody>
             </table>
-            {selectedSensor !== null && <SensorLog name={selectedSensor[0]} logList={logs}/>}
+            {selectedSensor.length === 3 && <SensorLog name={selectedSensor[0]} logList={logs}/>}
         </div>
     );
 }

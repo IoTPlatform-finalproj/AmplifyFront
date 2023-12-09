@@ -4,11 +4,11 @@ import DeviceLog from "./device/DeviceLog";
 import Modal from "../component/Modal";
 import DeviceSet from "./device/DeviceSet";
 
-function MyDevice({jwtToken, updateState, updateSignal}) {
+function MyDevice({jwtToken, updateState, updateSignal, setDeviceList}) {
 
     const [devices, setDevices] = useState([])
     const [logs, updateLogs] = useState([])
-    const [selectedDevice, setSelectedDevice] = useState([null, null, null])
+    const [selectedDevice, setSelectedDevice] = useState([])
     const [isDeviceWinOpen, setDeviceWin] = useState(false);
     const [isDeviceAddWinOpen, setDeviceAddWin] = useState(false)
 
@@ -28,10 +28,9 @@ function MyDevice({jwtToken, updateState, updateSignal}) {
                     }
                 });
             setDevices(response.data.devices)
+            setDeviceList(devices)
 
-            console.log('API response:', response.data);
         } catch (error) {
-            console.log()
             console.error('Error calling API:', error);
         }
     };
@@ -40,7 +39,7 @@ function MyDevice({jwtToken, updateState, updateSignal}) {
         if (token === '') return
         try {
             const response = await baseAxios.get(
-                `devices/${deviceId}/log`,
+                `devices/${deviceId}/log?start_time=${new Date().getTime() - (7 * 24 * 60 * 60 * 1000)}`,
                 {
                     headers: {
                         Authorization: token
@@ -50,7 +49,6 @@ function MyDevice({jwtToken, updateState, updateSignal}) {
 
             updateLogs(response.data.device_log)
 
-            console.log('Device log: ', response.data.device_log)
         } catch (error) {
             console.error('Error while fetch log: ', error)
         }
@@ -83,11 +81,11 @@ function MyDevice({jwtToken, updateState, updateSignal}) {
                         <td>{device.power}</td>
                         <td>
                             <button onClick={() => {
-                                if (selectedDevice[1] === device.id) {
-                                    setSelectedDevice(null)
+                                if (selectedDevice.length === 4 && selectedDevice[1] === device.id) {
+                                    setSelectedDevice([])
                                 } else {
                                     updateLogs([])
-                                    setSelectedDevice([device.name, device.id, parseInt(device.type)])
+                                    setSelectedDevice([device.name, device.id, parseInt(device.type), device.power])
                                     getDeviceLog(jwtToken, device.id)
                                 }
                             }}>check
@@ -95,7 +93,7 @@ function MyDevice({jwtToken, updateState, updateSignal}) {
                         </td>
                         <td>
                             <button onClick={() => {
-                                setSelectedDevice([device.name, device.id, parseInt(device.type)])
+                                setSelectedDevice([device.name, device.id, parseInt(device.type), device.power])
                                 setDeviceWin(true)
 
                             }}>open
@@ -113,11 +111,8 @@ function MyDevice({jwtToken, updateState, updateSignal}) {
                     setDeviceWin(false)
                 }}/>
             </Modal>}
-            {selectedDevice !== null && <DeviceLog name={selectedDevice[0]} logList={logs}/>}
-
-            {isDeviceAddWinOpen && <Modal onClose={() => {
-                setDeviceAddWin(false)
-            }}></Modal>}
+            {selectedDevice.length === 4 &&
+                <DeviceLog name={selectedDevice[0]} logList={logs} power={selectedDevice[3]}/>}
         </div>
     );
 }
