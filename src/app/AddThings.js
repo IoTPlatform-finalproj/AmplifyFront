@@ -44,7 +44,7 @@ function AddThings({jwtToken, updateState, updateSignal, deviceList, sensorList,
             </button>
             <button onClick={() => {
                 setIsRuleAddOpen(true)
-            }}>센서 추가
+            }}>자동화 규칙 추가
             </button>
         </div>
     )

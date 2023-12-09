@@ -27,8 +27,8 @@ function MyDevice({jwtToken, updateState, updateSignal, setDeviceList}) {
                         Authorization: token
                     }
                 });
-            setDevices(response.data.devices)
-            setDeviceList(devices)
+            setDevices([...response.data.devices])
+            setDeviceList([...response.data.devices])
 
         } catch (error) {
             console.error('Error calling API:', error);

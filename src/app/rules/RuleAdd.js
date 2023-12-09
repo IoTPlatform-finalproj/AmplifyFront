@@ -19,20 +19,25 @@ function RuleAdd({token, updateSignal, closeWin, deviceList, sensorList, ruleLis
 
     useEffect(() => {
         (async () => {
-            console.log("deviceList:", deviceList);
-            console.log("selectedDeviceIndex:", selectedDeviceIndex);
-            if (deviceList.length === 0) setDeviceType(-1)
-            console.log(deviceList)
-            setDeviceType(await getDeviceType(deviceList[selectedDeviceIndex].id))
+            if (deviceList.length === 0) {
+                setDeviceType(-1)
+                return
+            }
+            setDeviceType((await getDeviceType(deviceList[selectedDeviceIndex].id)))
+            console.log(`device: ${deviceType}`)
         })()
-    }, [deviceList, selectedDeviceIndex]);
+    }, [deviceList, selectedDeviceIndex, token]);
 
     useEffect(() => {
         (async () => {
-            if (sensorList.length === 0) setSensorType(-1)
+            if (sensorList.length === 0) {
+                setSensorType(-1)
+                return
+            }
             setSensorType(await getSensorType(sensorList[selectedSensorIndex].id))
+            console.log(`sensor: ${sensorType}`)
         })()
-    }, [sensorList, selectedSensorIndex]);
+    }, [sensorList, selectedSensorIndex, token]);
     const submit = async (event) => {
         event.preventDefault()
 
@@ -94,7 +99,8 @@ function RuleAdd({token, updateSignal, closeWin, deviceList, sensorList, ruleLis
             return -1
         }
 
-        return parseInt(response.data.type)
+
+        return parseInt(response.data.device.type)
     }
 
     const getSensorType = async (sensorId) => {
@@ -112,7 +118,7 @@ function RuleAdd({token, updateSignal, closeWin, deviceList, sensorList, ruleLis
             return -1
         }
 
-        return parseInt(response.data.type)
+        return parseInt(response.data.sensor.type)
     }
 
     return (
@@ -136,8 +142,8 @@ function RuleAdd({token, updateSignal, closeWin, deviceList, sensorList, ruleLis
                                 <td>
                                     <input
                                         type="radio"
-                                        value="0"
-                                        checked={selectedDeviceIndex === index}
+                                        value={index}
+                                        checked={selectedDeviceIndex === parseInt(index)}
                                         onChange={(e) => {
                                             setSelectedDeviceIndex((parseInt(e.target.value)))
                                         }}
@@ -170,7 +176,7 @@ function RuleAdd({token, updateSignal, closeWin, deviceList, sensorList, ruleLis
                                 <td>
                                     <input
                                         type="radio"
-                                        value="0"
+                                        value={index}
                                         checked={selectedSensorIndex === index}
                                         onChange={(e) => {
                                             setSelectedSensorIndex((parseInt(e.target.value)))
@@ -288,7 +294,7 @@ function RuleAdd({token, updateSignal, closeWin, deviceList, sensorList, ruleLis
                     </label>
                     <label>
                         조건 만족 시 기기 상태(Step, Device type 1)
-                        <input type="checkbox" value={step} disabled={deviceType !== 1 || !useStep}
+                        <input type="number" value={step} disabled={deviceType !== 1 || !useStep}
                                onChange={(e) => {
                                    setStep(parseInt(e.target.value))
                                }}/>

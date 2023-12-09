@@ -21,8 +21,8 @@ function MySensor({jwtToken, updateState, updateSignal, setSensorList}) {
                         Authorization: token
                     }
                 });
-            setSensors(response.data.sensors)
-            setSensorList(response.data.sensors)
+            setSensors([...response.data.sensors])
+            setSensorList([...response.data.sensors])
 
         } catch (error) {
             console.error('Error calling API:', error);
