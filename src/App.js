@@ -7,6 +7,7 @@ import { withAuthenticator, Button, Heading } from '@aws-amplify/ui-react';
 import awsconfig from './aws-exports';
 import baseAxios from "./config/AxiosConfig";
 import MyDevice from "./app/myDevice";
+import MySensor from "./app/mySensor";
 Amplify.configure(awsconfig);
 function App({ signOut }) {
 
@@ -63,6 +64,7 @@ function App({ signOut }) {
         <button onClick={signOut}>Sign out</button>
           <hr/>
           <MyDevice jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}/>
+          <MySensor jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal} />
       </div>
   );
 }
