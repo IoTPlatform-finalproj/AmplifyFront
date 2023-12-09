@@ -14,17 +14,19 @@ function DeviceSet({deviceId, deviceType, token, updateSignal, closeWin}) {
         console.log(`type=${typeof deviceType}`)
         if (deviceType === 1)
             statusTo.step = step
-
+        console.log(statusTo)
 
         try {
             const response = await baseAxios.put(
                 `devices/${deviceId}`,
                 {
+                    'device_type': deviceType,
                     'status_to': statusTo
                 },
                 {
                     headers: {
                         Authorization: token,
+                        'Content-Type': "application/json"
                     }
                 }
             )
