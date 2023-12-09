@@ -64,6 +64,30 @@ function MyAutoRules({jwtToken, updateState, updateSignal, setRuleList}) {
         return `(Sensor) ${opcode} (${target}) => (Device ${result})`
     }
 
+    const deleteRule = async (ruleId) => {
+        if (!window.confirm("정말 삭제하시겠습니까?")) {
+            alert("취소되었습니다.")
+            return
+        }
+
+        const response = await baseAxios.delete(
+            `auto-rules/${ruleId}`,
+            {
+                headers: {
+                    Authorization: jwtToken
+                }
+            }
+        )
+
+        if (response.status !== 200) {
+            alert(`삭제 실패: ${response.status}`)
+            return
+        }
+
+        alert("삭제 성공!")
+        updateSignal()
+    }
+
     return (
         <div>
             <h3>My Auto Rules: {rules.length}</h3>
@@ -74,6 +98,7 @@ function MyAutoRules({jwtToken, updateState, updateSignal, setRuleList}) {
                     <th>Device ID</th>
                     <th>Sensor ID</th>
                     <th>Rule</th>
+                    <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -83,6 +108,12 @@ function MyAutoRules({jwtToken, updateState, updateSignal, setRuleList}) {
                         <td>{rule.device_id}</td>
                         <td>{rule.sensor_id}</td>
                         <td>{makeRuleString(rule)}</td>
+                        <td>
+                            <button onClick={() => {
+                                deleteRule(rule.rule_id)
+                            }}>delete
+                            </button>
+                        </td>
                     </tr>
                 ))}
                 </tbody>

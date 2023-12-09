@@ -3,6 +3,7 @@ import Modal from "../component/Modal";
 import DeviceAdd from "./device/DeviceAdd";
 import SensorAdd from "./sensor/SensorAdd";
 import RuleAdd from "./rules/RuleAdd";
+import "./AddThings.css"
 
 function AddThings({jwtToken, updateState, updateSignal, deviceList, sensorList, ruleList}) {
     const [isDeviceAddOpen, setIsDeviceAddOpen] = useState(false)
@@ -12,7 +13,6 @@ function AddThings({jwtToken, updateState, updateSignal, deviceList, sensorList,
 
     return (
         <div>
-            <hr/>
             {isDeviceAddOpen && <Modal onClose={() => {
                 setIsDeviceAddOpen(false)
             }}>

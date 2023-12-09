@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import baseAxios from "../../config/AxiosConfig";
+import "./RuleAdd.css"
 
 function RuleAdd({token, updateSignal, closeWin, deviceList, sensorList, ruleList}) {
     const [selectedDeviceIndex, setSelectedDeviceIndex] = useState(0)
@@ -82,6 +83,7 @@ function RuleAdd({token, updateSignal, closeWin, deviceList, sensorList, ruleLis
 
         updateSignal()
         closeWin()
+        alert("규칙 추가 성공!")
     }
 
     const getDeviceType = async (deviceId) => {
@@ -124,8 +126,9 @@ function RuleAdd({token, updateSignal, closeWin, deviceList, sensorList, ruleLis
     return (
         <div>
             <form onSubmit={submit}>
+
+                <h4>기기 선택</h4>
                 <div>
-                    <p>기기 선택</p>
                     <table border="1">
                         <thead>
                         <tr>
@@ -158,8 +161,10 @@ function RuleAdd({token, updateSignal, closeWin, deviceList, sensorList, ruleLis
                     </table>
 
                 </div>
+
+                <h4>센서 선택</h4>
                 <div>
-                    <p>센서 선택</p>
+
                     <table border="1">
                         <thead>
                         <tr>
@@ -193,10 +198,11 @@ function RuleAdd({token, updateSignal, closeWin, deviceList, sensorList, ruleLis
 
                 </div>
 
-                <div>
-                    <p>연산자 선택. 좌변은 센서, 우변은 설정한 값으로 대입됩니다. 타입 2, 3은 센서 타입 1(정수 value 표현)이 아니라면 선택할 수 없습니다. </p>
+                <h4>연산자 선택</h4>
+                <h5>좌변은 센서, 우변은 설정한 값으로 대입됩니다. 타입 2, 3은 센서 타입 1(정수 value 표현)이 아니라면 선택할 수 없습니다.</h5>
+                <div className={"label-container"}>
                     <label>
-                        Type 0: "==" (일치)
+                        Type 0: == (일치)
                         <input
                             type="radio"
                             value="0"
@@ -208,7 +214,7 @@ function RuleAdd({token, updateSignal, closeWin, deviceList, sensorList, ruleLis
                     </label>
 
                     <label>
-                        Type 1: "!=" (불일치)
+                        Type 1: != (불일치)
                         <input
                             type="radio"
                             value="1"
@@ -220,7 +226,7 @@ function RuleAdd({token, updateSignal, closeWin, deviceList, sensorList, ruleLis
                     </label>
 
                     <label>
-                        Type 2: "&lt;" (초과)
+                        Type 2: &lt; (초과)
                         <input
                             type="radio"
                             value="2"
@@ -232,7 +238,7 @@ function RuleAdd({token, updateSignal, closeWin, deviceList, sensorList, ruleLis
                     </label>
 
                     <label>
-                        Type 3: "&rt;" (미만)
+                        Type 3: &gt; (미만)
                         <input
                             type="radio"
                             value="3"
@@ -245,8 +251,8 @@ function RuleAdd({token, updateSignal, closeWin, deviceList, sensorList, ruleLis
                 </div>
                 <hr/>
 
-                <div>
-                    <p>센서</p><br/>
+                <h4>센서</h4><br/>
+                <div className={"label-container"}>
                     <label>
                         목표 상태(ON/OFF, Sensor type 0)
                         <input type="checkbox" checked={isOn} disabled={sensorType !== 0}
@@ -265,26 +271,27 @@ function RuleAdd({token, updateSignal, closeWin, deviceList, sensorList, ruleLis
 
                 <hr/>
 
-                <div>
-                    <div>
-                        <p>기기 상태 사용 여부</p><br/>
-                        <label>
-                            ON/OFF 상태 사용
-                            <input type="checkbox" checked={useIsActive}
-                                   onChange={(e) => {
-                                       setUseIsActive(!useIsActive)
-                                   }}/>
-                        </label>
-                        <label>
-                            Step 상태 사용
-                            <input type="checkbox" checked={useStep} disabled={deviceType !== 1}
-                                   onChange={(e) => {
-                                       setUseStep(!useStep)
-                                   }}/>
-                        </label>
-                    </div>
 
-                    <p>기기</p><br/>
+                <h4>기기 상태 사용 여부</h4><br/>
+                <div className={"label-container"}>
+                    <label>
+                        ON/OFF 상태 사용
+                        <input type="checkbox" checked={useIsActive}
+                               onChange={(e) => {
+                                   setUseIsActive(!useIsActive)
+                               }}/>
+                    </label>
+                    <label>
+                        Step 상태 사용
+                        <input type="checkbox" checked={useStep} disabled={deviceType !== 1}
+                               onChange={(e) => {
+                                   setUseStep(!useStep)
+                               }}/>
+                    </label>
+                </div>
+
+                <h4>기기</h4><br/>
+                <div className={"label-container"}>
                     <label>
                         조건 만족 시 기기 상태(ON/OFF)
                         <input type="checkbox" checked={isActive} disabled={!useIsActive}
@@ -301,10 +308,11 @@ function RuleAdd({token, updateSignal, closeWin, deviceList, sensorList, ruleLis
                     </label>
                 </div>
 
+
             </form>
 
-            <button onClick={closeWin}>cancel</button>
-            <button onClick={submit}>submit</button>
+            <button onClick={closeWin} className={"my-button my-button-left"}>취소</button>
+            <button onClick={submit} className={"my-button my-button-right"}>제출</button>
         </div>
     )
 }

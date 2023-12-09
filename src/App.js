@@ -63,8 +63,8 @@ function App({signOut}) {
     return (
         <div>
             <h1>Logged in as: {userName}</h1>
-            <h2>!!WA!!</h2>
-            <button onClick={signOut}>Sign out</button>
+            <h2>환영합니다</h2>
+            <button onClick={signOut} className={"my-logout-button"}>Sign out</button>
             <hr/>
             <MyDevice jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}
                       setDeviceList={setDevices}/>
@@ -72,6 +72,7 @@ function App({signOut}) {
                       setSensorList={setSensors}/>
             <MyAutoRules jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}
                          setRuleList={setRules}/>
+            <hr/>
             <AddThings jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal} deviceList={devices}
                        sensorList={sensors} ruleList={rules}/>
         </div>

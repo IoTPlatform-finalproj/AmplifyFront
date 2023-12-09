@@ -48,6 +48,30 @@ function MySensor({jwtToken, updateState, updateSignal, setSensorList}) {
         }
     }
 
+    const deleteSensor = async (sensorId) => {
+        if (!window.confirm("정말 삭제하시겠습니까? 연결된 자동화 규칙도 함께 삭제될 것입니다.")) {
+            alert("취소되었습니다.")
+            return
+        }
+
+        const response = await baseAxios.delete(
+            `sensors/${sensorId}`,
+            {
+                headers: {
+                    Authorization: jwtToken
+                }
+            }
+        )
+
+        if (response.status !== 200) {
+            alert(`삭제 실패: ${response.status}`)
+            return
+        }
+
+        alert("삭제 성공!")
+        updateSignal()
+    }
+
     return (
         <div>
             <h3>My Sensors:{sensors.length}</h3>
@@ -60,6 +84,7 @@ function MySensor({jwtToken, updateState, updateSignal, setSensorList}) {
                     <th>Description</th>
                     <th>Type</th>
                     <th>Log</th>
+                    <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -80,6 +105,12 @@ function MySensor({jwtToken, updateState, updateSignal, setSensorList}) {
                                     getSensorLog(jwtToken, sensor.id)
                                 }
                             }}>check
+                            </button>
+                        </td>
+                        <td>
+                            <button onClick={() => {
+                                deleteSensor(sensor.id)
+                            }}>delete
                             </button>
                         </td>
                     </tr>

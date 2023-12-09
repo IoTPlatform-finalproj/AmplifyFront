@@ -89,10 +89,10 @@ function SensorAdd({token, updateSignal, closeWin}) {
             </form>
             {isSuccessed !== null && <div>
                 <strong>센서 인증 정보: 반드시 안전하게 저장!</strong><br/>
-                <span>센서 ID: </span> <p>{isSuccessed.sensor_id}</p><br/>
-                <span>센서 인증서: </span><p>{isSuccessed.certificatePem}</p><br/>
-                <span>개인키: </span><p>{isSuccessed.privateKey}</p><br/>
-                <span>공개키: </span><p>{isSuccessed.publicKey}</p><br/>
+                <span>센서 ID: </span> <input readOnly={true} value={isSuccessed.sensor_id}/><br/>
+                <span>센서 인증서: </span><input readOnly={true} value={isSuccessed.certificatePem}/><br/>
+                <span>개인키: </span><input readOnly={true} value={isSuccessed.privateKey}/><br/>
+                <span>공개키: </span><input readOnly={true} value={isSuccessed.publicKey}/><br/>
             </div>}
             <button onClick={closeWin}>닫기</button>
         </div>

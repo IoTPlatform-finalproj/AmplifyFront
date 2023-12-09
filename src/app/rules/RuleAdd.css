@@ -1,0 +1,33 @@
+div {
+    margin: 10px;
+    padding: 10px
+}
+
+.group {
+    border: 2px solid black;
+}
+
+.label-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+label {
+    flex-basis: calc(50% - 10px);
+    box-sizing: border-box;
+    margin: 5px;
+}
+
+label span {
+    margin-bottom: 5px;
+}
+
+.my-button {
+    background-color: #fcfcfc;
+    color: #000000;
+    border: 1px solid black;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}

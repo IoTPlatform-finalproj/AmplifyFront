@@ -54,6 +54,30 @@ function MyDevice({jwtToken, updateState, updateSignal, setDeviceList}) {
         }
     }
 
+    const deleteDevice = async (deviceId) => {
+        if (!window.confirm("정말 삭제하시겠습니까? 연결된 자동화 규칙도 함께 삭제될 것입니다.")) {
+            alert("취소되었습니다.")
+            return
+        }
+
+        const response = await baseAxios.delete(
+            `devices/${deviceId}`,
+            {
+                headers: {
+                    Authorization: jwtToken
+                }
+            }
+        )
+
+        if (response.status !== 200) {
+            alert(`삭제 실패: ${response.status}`)
+            return
+        }
+
+        alert("삭제 성공!")
+        updateSignal()
+    }
+
     return (
         <div>
             <h3>My Devices: {devices.length}</h3>
@@ -68,6 +92,7 @@ function MyDevice({jwtToken, updateState, updateSignal, setDeviceList}) {
                     <th>Power(W)</th>
                     <th>Log</th>
                     <th>Control Panel</th>
+                    <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -96,7 +121,13 @@ function MyDevice({jwtToken, updateState, updateSignal, setDeviceList}) {
                                 setSelectedDevice([device.name, device.id, parseInt(device.type), device.power])
                                 setDeviceWin(true)
 
-                            }}>open
+                            }}>open panel
+                            </button>
+                        </td>
+                        <td>
+                            <button onClick={() => {
+                                deleteDevice(device.id)
+                            }}>delete
                             </button>
                         </td>
                     </tr>
