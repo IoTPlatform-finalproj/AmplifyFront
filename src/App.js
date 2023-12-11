@@ -73,6 +73,7 @@ function App({signOut}) {
             <MyAutoRules jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal}
                          setRuleList={setRules}/>
             <hr/>
+            <div className={"space"}/>
             <AddThings jwtToken={jwtToken} updateState={updateState} updateSignal={updateSignal} deviceList={devices}
                        sensorList={sensors} ruleList={rules}/>
         </div>

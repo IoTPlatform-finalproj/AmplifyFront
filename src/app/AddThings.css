@@ -7,3 +7,8 @@
     border-radius: 10px;
     cursor: pointer;
 }
+
+.add-bar {
+    position: fixed;
+    bottom: 10px;
+}

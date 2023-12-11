@@ -12,7 +12,7 @@ function AddThings({jwtToken, updateState, updateSignal, deviceList, sensorList,
 
 
     return (
-        <div>
+        <div className={"add-bar"}>
             {isDeviceAddOpen && <Modal onClose={() => {
                 setIsDeviceAddOpen(false)
             }}>
